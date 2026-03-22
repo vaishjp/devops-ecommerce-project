@@ -15,18 +15,12 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Deploy to Kubernetes') {
             steps {
-                sshagent(['ec2-ssh-key']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@43.204.102.121 '
-                    sudo docker stop devops-container || true
-                    sudo docker rm devops-container || true
-                    sudo docker pull vaishnavijp/devops-node-app:1.0
-                    sudo docker run -d -p 80:3000 --name devops-container vaishnavijp/devops-node-app:1.0
-                    '
-                    '''
-                }
+                sh '''
+                kubectl apply -f terraform/deployment.yaml
+                kubectl apply -f terraform/service.yaml
+                '''
             }
         }
 
