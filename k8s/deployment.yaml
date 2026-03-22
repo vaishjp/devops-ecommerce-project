@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: devops-container
-          image: vaishnavijp/devops-node-app:1.0
+          image: vaishnavijp/devops-node-app:latest
           ports:
             - containerPort: 3000
